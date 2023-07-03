@@ -4,7 +4,7 @@ services:
     build:
       context: ./back_topmax
       dockerfile: Dockerfile
-    container_name: node_app_container
+    container_name: back_topmax_app_container
     # image: a7medabdo6/care_managment
     volumes:
       - ./back_topmax/src:/back_topmax_App/src:ro
