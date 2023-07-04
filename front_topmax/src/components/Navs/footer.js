@@ -15,7 +15,9 @@ const Footer = () => {
         <div>
           <div className="site-footer__social-icons">
             <div  className="site-footer__social-icons-member">
+              <a style={{color: "#fff"}} href="https://instagram.com/topmaxphone?igshid=MjEwN2IyYWYwYw==" target="_blank">
               <InstagramIcon />
+              </a>
             </div>
             <div className="site-footer__social-icons-member">
               <FacebookIcon />
