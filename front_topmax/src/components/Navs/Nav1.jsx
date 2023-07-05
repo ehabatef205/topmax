@@ -43,7 +43,7 @@ export function NavBar({ setCurrentPage, setShow }) {
               navigate("/profile");
             }
           }}>
-              <AccountCircleOutlinedIcon style={{color: "#fff", fontSize: "30px"}}/>
+              <AccountCircleOutlinedIcon style={{color: "#fff", fontSize: "25px"}}/>
           </Nav.Link>
           <Nav.Link style={{paddingLeft: "20px"}} onClick={() => {
               if(localStorage.getItem("Authorization") === null){
@@ -54,9 +54,12 @@ export function NavBar({ setCurrentPage, setShow }) {
                 navigate("/cart");
               }
           }}>
-              <ShoppingBagOutlinedIcon style={{color: "#fff", fontSize: "30px"}}/>
+              <ShoppingBagOutlinedIcon style={{color: "#fff", fontSize: "25px"}}/>
           </Nav.Link>
-          <Nav className="me-auto" style={{display: "flex", alignItems: "center", justifyContent: "center", width: "80vw"}}>
+          <Nav.Link style={{paddingLeft: "20px"}}>
+              <FavoriteBorderOutlinedIcon style={{color: "#fff", fontSize: "25px"}}/>
+          </Nav.Link>
+          <Nav className="me-auto" style={{display: "flex", alignItems: "center", justifyContent: "center", width: "50vw"}}>
             <div style={container}>
               <Nav.Link style={{ color: "#fff"}}>
                 <SearchOutlinedIcon style={{color: "#000"}}/>
@@ -108,11 +111,10 @@ const container = {
   backgroundColor: "#fff",
   paddingRight: "1%",
   borderRadius: 50,
-  width: "40vw",
+  width: "30vw",
 };
 
 const imageNav = {
-  width: "25vw",
   display: "flex",
   justifyContent: "flex-end",
 };
