@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 7000
+const port = 7001
 const mongoose = require('mongoose')
 const router = require('./src/routes/index')
 const cors=require('cors')
