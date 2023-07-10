@@ -9,7 +9,7 @@ services:
     volumes:
       - ./back_topmax/src:/back_topmax_App/src:ro
     ports:
-      - "7000:7000"
+      - "7001:7001"
   react:
     build:
       context: ./front_topmax
