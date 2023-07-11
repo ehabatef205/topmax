@@ -74,7 +74,8 @@ export function NavBar({ setCurrentPage, setShow }) {
           </Nav>
           <Nav className="me-auto" style={{display: "flex", alignItems: "center", justifyContent: "center"}}>
             <div style={{fontSize: "calc(2vmin)", fontWeight: "bold", marginLeft: "5px", marginRight: "5px", color: "#fff"}}>
-              +96560610918
+              <div>0096560062391</div>
+              <div>0096550996130</div>
             </div>
             {/* <Nav.Link href={"#cart"} style={{marginLeft:'3%'}} onClick={() => setShow(false)}><ShoppingBagOutlinedIcon /></Nav.Link>  */}
           </Nav>

@@ -26,7 +26,7 @@ const ProfileInfo = () => {
 
   useEffect(() => {
     setLoading(true)
-  getuser(token).then(res=>{
+  getuser().then(res=>{
     setLoading(false)
     console.log(res.data)
     setThisUser(res.data.respone)
@@ -35,7 +35,7 @@ const ProfileInfo = () => {
 },[])
 
 const handleClick=()=>{
-  updateuser(first_name, last_name , telephone  ,token).then(res=>{
+  updateuser(first_name, last_name , telephone).then(res=>{
     window.location.reload(false);
   })
 }
