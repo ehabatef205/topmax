@@ -89,7 +89,7 @@ export default function Homecards(props) {
     overflowWrap: "break-word",
     textOverflow: "ellipsis",
     width: "270px", textAlign: "end"}}>{product.name}</Card.Title>
-                    <Card.Text className="mb-0">KWD {product.price}</Card.Text>
+                    <Card.Text className="mb-0">{product.price}$</Card.Text>
                   </div>
                 </div>
               </div> : <div key={product?._id}></div>)}
@@ -177,7 +177,7 @@ export function ViewProductCard() {
     overflowWrap: "break-word",
     textOverflow: "ellipsis",
     width: "270px", textAlign: "end"}}>{product.name}</Card.Title>
-                    <Card.Text className="mb-0">KWD {product.price}</Card.Text>
+                    <Card.Text className="mb-0">{product.price}$</Card.Text>
                   </div>
                 </div>
               </div>)}
@@ -242,7 +242,7 @@ export function ViewCart(props) {
     overflowWrap: "break-word",
     textOverflow: "ellipsis",
     width: "190px", textAlign: "end"}}>{product.name}</Card.Title>
-                    <Card.Text className="mb-0">KWD السعر: {product.price}</Card.Text>
+                    <Card.Text className="mb-0">{product.price}$</Card.Text>
                     <Card.Text>الكمية: {props.quantity}</Card.Text>
                   </div>
                 </div>

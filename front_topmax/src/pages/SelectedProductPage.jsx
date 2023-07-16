@@ -82,7 +82,7 @@ function SelectedProductPage({ products, handleClick }) {
             className=" w-100 d-flex "
             style={{ fontSize: "25px", justifyContent: "flex-end"}}
           >
-            <b className="mx-2" style={{color: "rgb(80, 192, 169)"}}>KWD {data.price}</b>
+            <b className="mx-2" style={{color: "rgb(80, 192, 169)"}}>{data.price}$</b>
           </div>
           <div
             className=" w-100 my-1 d-flex "

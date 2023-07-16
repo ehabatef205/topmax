@@ -1,6 +1,6 @@
 import axios from "../axios";
 
-const addOrder=async(products, phone, country, firstName, lastName, address, city, zipCode)=>{
+const addOrder=async(products, phone, country, firstName, lastName, address, city, zipCode, payment, totalPrice)=>{
     return  axios.post('/order_items/create', {
         products: products,
         phone: phone,
@@ -9,7 +9,9 @@ const addOrder=async(products, phone, country, firstName, lastName, address, cit
         lastName: lastName,
         address: address,
         city: city,
-        zipCode: zipCode
+        zipCode: zipCode,
+        payment: payment,
+        totalPrice: totalPrice
     }
     ,{headers:{authorization:localStorage.getItem("Authorization")}}
     )

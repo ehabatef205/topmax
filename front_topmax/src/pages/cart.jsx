@@ -6,7 +6,11 @@ import "../components/section/slider.css";
 import { Nav2 } from "../components/Navs/Nav2";
 import getCarts from "../api/basis/getCarts"
 import addOrder from "../api/basis/addOrder"
+import getProduct from "../api/basis/product"
 import removeCart from "../api/basis/removeCart"
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function CartPage() {
     const [carts,setCarts]=useState([])
@@ -15,7 +19,17 @@ export default function CartPage() {
 
   const [viewInputs,setView]=useState(false)
 
+  const [viewButton ,setViewButton]=useState(false)
+
   const [products,setProducts]=useState([])
+
+  const [priceProducts,setPriceProducts]=useState([])
+
+  const [payment,setPayment]=useState("")
+  
+  const [valueButton, setValueButton] = useState("اطلب اوردر")
+
+  var allPrice = 0
 
   const phone = useRef(null); 
   const country = useRef(null);
@@ -28,8 +42,9 @@ export default function CartPage() {
   useEffect(()=>{
       if(localStorage.getItem("Authorization") !== null){
         setLoading(true)
-      getCarts(localStorage.getItem("Authorization")).then(res=>{
+      getCarts(localStorage.getItem("Authorization")).then(async(res)=>{
         setLoading(false)
+        
         setCarts(res.data)
       }).catch((error) => {
         setLoading(false)
@@ -38,27 +53,112 @@ export default function CartPage() {
     }
     ,[])
 
-    const addProducts = () => {
+    const addProducts = async() => {
       for(var i = 0; i < carts.length; i++){
         const product = {product_id:carts[i].product_id, quantity: carts[i].quantity}
         setProducts(products => [...products, product]) 
+        await getProduct(carts[i].product_id).then(async (product1)=>{
+          allPrice = allPrice + (product1.data.price * carts[i].quantity)
+        })
+      }
+
+      setPriceProducts(allPrice)
+    }
+
+    
+    const add = async() => {
+      if(viewInputs === false){
+          if(carts.length !== 0){
+            addProducts().then(res => {
+              setView(true)
+              setValueButton("اختر طريقة الدفع")
+            })
+          }else{
+            toast.warning("Cart is empty", {
+              position: toast.POSITION.TOP_RIGHT
+            })
+          }
+      }else{
+        if(payment === "cash"){
+          await addOrder(products, phone.current.value, country.current.value, firstName.current.value, lastName.current.value, address.current.value, city.current.value, zipCode.current.value, payment, priceProducts).then(async res => {
+            console.log(res.data)
+          })
+          window.location.reload(false)
+        }else{
+          if(phone.current.value !== "" && country.current.value !== "" && firstName.current.value !== "" && lastName.current.value !== "" && address.current.value !== "" && city.current.value !== "" && zipCode.current.value !== ""){
+            setViewButton(true)
+            setPayment("online")
+            setView(false)
+            setValueButton("اطلب اوردر")
+          }else{
+            toast.warning("Please complete all inputs", {
+              position: toast.POSITION.TOP_RIGHT
+            })
+          }
+        }
       }
     }
 
-    const add = async() => {
-      if(viewInputs === false){
-        addProducts()
-        setView(true)
-      }else{
-        await addOrder(products, phone.current.value, country.current.value, firstName.current.value, lastName.current.value, address.current.value, city.current.value, zipCode.current.value).then(async res => {
-          console.log(res.data)
-        })
-        window.location.reload(false)
-      }
-    }
+    const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (event) => {
+    event.preventDefault(); // Prevent the default behavior of the input change event
+    setInputValue(event.target.value);
+  };
+
+    const initialOptions = {
+      clientId: "AQbEYimVHi5OHAm0EdWgexQKzXjhKCFc1yRzahJIDrV5hndMylNgRHe8nEN8uC-rqxRZy2INSgH1luFp",
+      currency: "USD",
+      intent: "capture",
+    };
 
     const view = () => {
       setView(true)
+    }
+
+    const createOrder = (data) => {
+      // Order is created on the server and the order id is returned
+      return fetch("http://localhost:8888/my-server/create-paypal-order", {
+        method: "POST",
+         headers: {
+          "Content-Type": "application/json",
+        },
+        // use the "body" param to optionally pass additional order information
+        // like product skus and quantities
+        body: JSON.stringify({
+          products: {
+              cost: priceProducts,
+            },
+        }),
+      })
+      .then((response) => response.json())
+      .then((order) => order.id);
+    };
+  
+    const onApprove = (data) => {
+       // Order is captured on the server and the response is returned to the browser
+       return fetch("http://localhost:8888/my-server/capture-paypal-order", {
+        method: "POST",
+         headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderID: data.orderID
+        })
+      })
+      .then((response) => response.json()).then(async(order) => {
+        if(order.status === "COMPLETED"){
+          await addOrder(products, phone.current.value, country.current.value, firstName.current.value, lastName.current.value, address.current.value, city.current.value, zipCode.current.value).then(async res => {
+            console.log(res.data)
+          })
+          window.location.reload(false)
+        }
+      });
+    };
+
+    const handleSelection = (e) => {
+      setPayment(e.target.value)
+      console.log(e.target.value)
     }
 
   return (
@@ -118,13 +218,29 @@ export default function CartPage() {
             type="text"
           />
           <input
-            ref={zipCode}
+          ref={zipCode}
             style={inputText5}
             placeholder="الرقم البريدي"
-            type="ىعلاث"
+            type="text"
           />
+          <div style={divPrice}>السعر الكلي: ${priceProducts}</div>
         </div>)}
-        <div className=" my-1 w-50  d-md-grid ">
+        {viewButton? <><div style={divPrice}>السعر الكلي: ${priceProducts}</div><div style={divPayment}>
+            <label style={{padding: "10px"}}>
+              <input type="radio" value="online" checked={payment === "online"} onChange={handleSelection}/>
+              Online
+            </label>
+            <label style={{padding: "10px"}}>
+              <input type="radio" value="cash" checked={payment === "cash"} onChange={handleSelection}/>
+              Cash
+            </label>
+          </div></> : <></>}
+       {payment === "online"? <PayPalScriptProvider options={initialOptions}>
+       <PayPalButtons
+      createOrder={(data, actions) => createOrder(data, actions)}
+      onApprove={(data, actions) => onApprove(data, actions)}
+    />
+      </PayPalScriptProvider> : <div className=" my-1 w-100  d-md-grid ">
                   <span className=" my-2 h-100 " style={{ textAlign: "center" }}>
                     <button
                       className="btn text-light my-3 h-50 w-100"
@@ -132,14 +248,15 @@ export default function CartPage() {
                       style={{ backgroundColor: "blue" }}
                       disabled={localStorage.getItem("Authorization") === null}
                     >
-                      طلب اوردر
+                      {valueButton}
                     </button>
                   </span>
-                </div>
+                </div>}
           </div>
         </div>
       </Container>
     </div>
+    <ToastContainer />
     </>
   );
 }
@@ -152,4 +269,23 @@ const inputText5 = {
   marginTop: "20px",
   textAlign: "right",
   margin: "10px"
+}
+
+const divPrice = {
+    borderRadius: "15px",
+    width: "100%",
+    padding: "10px",
+    marginTop: "20px",
+    textAlign: "center",
+    margin: "10px",
+}
+
+const divPayment = {
+  borderRadius: "15px",
+  width: "100%",
+  padding: "10px",
+  marginTop: "20px",
+  textAlign: "center",
+  margin: "10px",
+  display: "inline-block"
 }

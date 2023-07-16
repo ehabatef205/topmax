@@ -49,7 +49,9 @@ const add_order_item = async (body, id) => {
         lastName: body.lastName,
         address: body.address,
         city: body.city,
-        zipCode: body.zipCode
+        zipCode: body.zipCode,
+        payment: body.payment,
+        totalPrice: body.totalPrice
     })
     await newOrder_item.save()
     return newOrder_item

@@ -35,6 +35,12 @@ const order_items_Schema = new Schema({
     zipCode: {
         type: String,
     },
+    payment: {
+        type: String
+    },
+    totalPrice: {
+        type: String
+    }
 },{timestamps:true})
 
 module.exports = model.Cart_items || model("Order_items", order_items_Schema);
