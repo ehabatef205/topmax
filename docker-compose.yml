@@ -23,10 +23,10 @@ services:
       - NODE_ENV=production
     restart: always
 
-   nginx:
-     build:
+  nginx:
+    build:
        context: ./
        dockerfile: Dockerfile.nginx
-     ports:
+    ports:
        - 80:80
-     restart: always
+    restart: always
