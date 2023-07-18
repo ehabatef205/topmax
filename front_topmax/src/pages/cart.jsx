@@ -118,7 +118,7 @@ export default function CartPage() {
 
     const createOrder = (data) => {
       // Order is created on the server and the order id is returned
-      return fetch("http://5.183.9.124:7001/my-server/create-paypal-order", {
+      return fetch("http://5.183.9.124:7011/my-server/create-paypal-order", {
         method: "POST",
          headers: {
           "Content-Type": "application/json",
@@ -137,7 +137,7 @@ export default function CartPage() {
   
     const onApprove = (data) => {
        // Order is captured on the server and the response is returned to the browser
-       return fetch("http://5.183.9.124:7001/my-server/capture-paypal-order", {
+       return fetch("http://5.183.9.124:7011/my-server/capture-paypal-order", {
         method: "POST",
          headers: {
           "Content-Type": "application/json",

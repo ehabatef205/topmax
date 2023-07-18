@@ -1,19 +1,19 @@
 import express from "express";
-import cors from 'cors'
+import cors from "cors";
 import * as paypal from "./paypal-api.js";
-const {PORT = 8888} = process.env;
+const { PORT = 7011 } = process.env;
 
 const app = express();
 
-const corsOptions ={
-  origin: "*", 
-  credentials:true,          
+const corsOptions = {
+  origin: "*",
+  credentials: true,
   optionSuccessStatus: 200,
-}
+};
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
-app.use(express.json({limit: '50mb'}));
+app.use(express.json({ limit: "50mb" }));
 
 app.post("/my-server/create-paypal-order", async (req, res) => {
   try {
@@ -28,10 +28,10 @@ app.post("/my-server/capture-paypal-order", async (req, res) => {
   const { orderID } = req.body;
   try {
     const captureData = await paypal.capturePayment(orderID);
-    console.log(captureData.status)
+    console.log(captureData.status);
     res.json(captureData);
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 });
 
