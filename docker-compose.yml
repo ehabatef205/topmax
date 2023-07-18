@@ -23,12 +23,10 @@ services:
       - NODE_ENV=production
     restart: always
 
-  # nginx:
-  #   build:
-  #     context: ./
-  #     dockerfile: Dockerfile.nginx
-  #   # volumes:
-  #   #     - ./Care_Frontend/build:/usr/share/nginx/html:ro
-  #   ports:
-  #     - 82:80
-  #   restart: always
+   nginx:
+     build:
+       context: ./
+       dockerfile: Dockerfile.nginx
+     ports:
+       - 80:80
+     restart: always
