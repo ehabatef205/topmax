@@ -107,7 +107,7 @@ export default function CartPage() {
   };
 
     const initialOptions = {
-      clientId: "AQbEYimVHi5OHAm0EdWgexQKzXjhKCFc1yRzahJIDrV5hndMylNgRHe8nEN8uC-rqxRZy2INSgH1luFp",
+      clientId: "ATO_-FjHuv2JTyECiX5TclFq-q3FUmAHEWW43BitksJd7w11Ft_rJauiRXcRZDdX37ZGoRche9BrvFKy",
       currency: "USD",
       intent: "capture",
     };

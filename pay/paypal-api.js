@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
-const CLIENT_ID = "AQbEYimVHi5OHAm0EdWgexQKzXjhKCFc1yRzahJIDrV5hndMylNgRHe8nEN8uC-rqxRZy2INSgH1luFp"
-const APP_SECRET = "ENcAXLwOy0-wBaLiz5YaGoF-7YRaLDtqBmxOXxSEdff_zNLZwxsylAuaisaPQwu6vCnY_ZrccTSZYL6l"
+const CLIENT_ID = "ATO_-FjHuv2JTyECiX5TclFq-q3FUmAHEWW43BitksJd7w11Ft_rJauiRXcRZDdX37ZGoRche9BrvFKy"
+const APP_SECRET = "EBUZsI7DmXhBMGUGe719yCJiVdRmMXeqYqV9ZlDzPsuWUFzDMu9AhlLfWE6A-Jk2Za7aKTOCwKWzg1rK"
 
 const base = "https://api-m.paypal.com";
 
